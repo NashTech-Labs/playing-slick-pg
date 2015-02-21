@@ -15,6 +15,8 @@ This is a classic CRUD application, backed by a PostgreSQL database. It demonstr
 -----------------------------------------------------------------------
 ###Instructions :-
 -----------------------------------------------------------------------
+* Install PostgreSQL, if you do not have it already. You can get it from [here](http://www.postgresql.org/download/)
+* Create a database called `test`
 * To run the Play Framework, you need JDK 6 or later
 * Install Typesafe Activator if you do not have it already. You can get it from here: http://www.playframework.com/download
 * Execute `./activator clean compile` to build the product
