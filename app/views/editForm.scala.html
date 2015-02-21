@@ -1,0 +1,37 @@
+@(id: Long, companyForm: Form[Company])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main("Edit Company") {
+    
+    <!-- Begin page content -->
+	<div class="container">
+		<div class="page-header">
+			<h1>Edit Company</h1>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-8">
+				@form(routes.Application.update(id)) {
+					<fieldset>
+						@formElements(companyForm)
+					</fieldset>
+				
+					<div class="actions">
+						<input type="submit" value="Save"	class="btn btn-primary"> or 
+						<a href="@routes.Application.list()" class="btn btn-default">Cancel</a>
+					</div>
+				}
+			</div>
+			<div class="col-md-4">
+				@info()
+			</div>
+		</div>
+		
+		@form(routes.Application.delete(id), 'class -> "topRight") { 
+			<input type="submit" value="Delete this company" class="btn btn-danger">
+		}
+	</div>
+}

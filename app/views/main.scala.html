@@ -6,10 +6,38 @@
     <head>
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootswatch-cosmo", "bootstrap.min.css"))">
+		
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/hello.js")" type="text/javascript"></script>
+        
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!--[if lt IE 9]>
+	      <script src="@routes.WebJarAssets.at(WebJarAssets.locate("html5shiv.js"))"></script>
+	      <script src="@routes.WebJarAssets.at(WebJarAssets.locate("respond.min.js"))"></script>
+	    <![endif]-->
+		
     </head>
     <body>
+    
+    	<!-- Fixed navbar -->
+	    @navbar()
+	    
         @content
+
+	    <div id="footer">
+	      <div class="container">
+			<p class="text-muted">Slick extensions for PostgreSQL, to support a series of pg data types and related operators/functions.</p>
+		</div>
+	    </div>
+        
+        <!-- Bootstrap core JavaScript
+	    ================================================== -->
+	    <!-- Placed at the end of the document so the pages load faster -->
+	    <script src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))"></script>
+	    
+	    <!-- Latest compiled and minified JavaScript -->
+		<script src="@routes.WebJarAssets.at(WebJarAssets.locate("bootswatch-cosmo", "bootstrap.min.js"))"></script>
     </body>
 </html>

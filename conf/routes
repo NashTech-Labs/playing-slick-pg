@@ -2,8 +2,25 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index
+# Default path will just redirect to the company list
+GET    /                       controllers.Application.index
+
+# companies list (look at the default values for pagination parameters)
+GET    /companies              controllers.Application.list(p:Int ?= 0, s:Int ?= 2, f ?= "")
+
+# Add company
+GET    /companies/new          controllers.Application.create
+POST   /companies/save         controllers.Application.save
+
+# Edit existing company
+GET    /companies/:id          controllers.Application.edit(id:Long)
+POST   /companies/:id          controllers.Application.update(id:Long)
+
+# Delete a company
+POST   /companies/:id/delete   controllers.Application.delete(id:Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET    /assets/*file           controllers.Assets.at(path="/public", file)
+
+# Map the webjar static assets to the /webjars URL
+GET    /webjars/*file          controllers.WebJarAssets.at(file)

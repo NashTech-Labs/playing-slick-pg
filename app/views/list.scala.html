@@ -1,0 +1,102 @@
+@(currentPage: Page[Company], currentOrderBy: Int, currentFilter: String)(implicit flash: play.api.mvc.Flash)
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage: Int, newOrderBy: Option[Int] = None) = @{
+    routes.Application.list(newPage, newOrderBy.map { orderBy =>
+        if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
+    }.getOrElse(currentOrderBy), currentFilter)
+}
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(orderBy: Int, title: String) = {
+    <th class="col@orderBy header @if(scala.math.abs(currentOrderBy) == orderBy) @{if(currentOrderBy < 0) "glyphicon glyphicon-chevron-down" else "glyphicon glyphicon-chevron-up"}">
+        <a href="@link(0, Some(orderBy))">@title</a>
+    </th>
+}
+
+@main("Companies") {
+
+	<!-- Begin page content -->
+	<div class="container">
+		<div class="page-header">
+			<h3>
+				@Messages("company.list.title", currentPage.total) 
+			</h3>
+		</div>
+	
+		@flash.get("success").map { message =>
+			<div class="alert alert-dismissable alert-success">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<strong>Well done!</strong> @message
+			</div>
+		}
+
+		<div id="actions">
+	
+			@helper.form(action=routes.Application.list(), 'class -> "navbar-form navbar-left", 'role -> "search") {
+				<input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by company name...">
+				<input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary btn-sm"> 
+			} 
+			<a class="btn btn-success btn-sm pull-right" id="add" href="@routes.Application.create()">Add a new company</a>	
+		</div>
+
+		@Option(currentPage.items).filterNot(_.isEmpty).map { companies =>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						@header(2, "Name")
+					 	@header(3, "Created") 
+					 	@header(4, "Updated")
+					</tr>
+				</thead>
+				<tbody>
+		
+					@companies.map { company =>
+					<tr>
+						<td><a href="@routes.Application.edit(company.id.get)">@company.name</a></td>
+						<td>@company.created</td>
+						<td>@company.updated</td>
+					</tr>
+					}
+		
+				</tbody>
+			</table>
+			<hr/>
+			
+            <ul class="pager" style="padding-bottom: 70px;">
+                @currentPage.prev.map { page =>
+                    <li class="previous">
+                        <a href="@link(page)">&larr; Previous</a>
+                    </li> 
+                }.getOrElse {
+                    <li class="previous disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Displaying @(currentPage.offset + 1) to @(currentPage.offset + companies.size) of @currentPage.total</a>
+                </li>
+                @currentPage.next.map { page =>
+                    <li class="next">
+                        <a href="@link(page)">Next &rarr;</a>
+                    </li> 
+                }.getOrElse {
+                    <li class="next disabled">
+                        <a>Next &rarr;</a>
+                    </li>
+                }
+            </ul>
+		}.getOrElse {
+			<div class="panel panel-default">
+			  <div class="panel-body">
+			    <em>Nothing to display</em>
+			  </div>
+			</div>	
+		}
+	</div>
+}
+

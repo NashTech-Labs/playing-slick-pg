@@ -1,0 +1,3 @@
+# Messages
+
+company.list.title={0,choice,0#No company|1#One company|1<{0,number,integer} company} found

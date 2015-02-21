@@ -1,0 +1,7 @@
+@(companyForm: Form[Company])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@inputText(companyForm("name"), '_label -> "Name", 'class -> "form-control")
