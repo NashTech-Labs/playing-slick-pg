@@ -10,7 +10,7 @@ class DAO(override val driver: PGDriver) extends CompanyComponent {
 
   /**
    * Count company with a filter
-   * 
+   *
    * @param filter
    */
   def count(filter: String)(implicit s: Session): Int =
@@ -29,10 +29,18 @@ class DAO(override val driver: PGDriver) extends CompanyComponent {
       (for {
         company <- companies
         if company.name.toLowerCase like filter.toLowerCase()
-      } yield (company)).drop(offset).take(pageSize)
-      
+      } yield (company))
+    val sort = orderBy match {
+      case -4 => query.sortBy(_.updated.desc)
+      case -3 => query.sortBy(_.created.desc)
+      case -2 => query.sortBy(_.name.desc)
+      case 2 => query.sortBy(_.name)
+      case 3 => query.sortBy(_.created)
+      case 4 => query.sortBy(_.updated)
+      case _ => query.sortBy(_.name)
+    }
     val totalRows = count(filter)
-    val result = query.list
+    val result = sort.drop(offset).take(pageSize).list
     Page(result, page, offset, totalRows)
   }
 
